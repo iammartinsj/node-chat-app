@@ -1,16 +1,26 @@
 //Third Party Module
 const express = require('express');
-
 //Node Module
-const path = require('path')
+const path = require('path');
+const socketIO = require('socket.io');
+const http = require('http');
 
 const publicPath = path.join(__dirname, '../public');
-
+const port = process.env.PORT || 3000;
 const app = express();
-const PORT = process.env.PORT || 3000;
+const server = http.createServer(app);
+const io = socketIO(server);
 
 app.use(express.static(publicPath));
 
-app.listen(PORT, () => {
-  console.log(`Server run at port ${PORT}`);
+io.on('connection', (socket) => {
+  console.log('New user connected');
+  
+  socket.on('disconnect', () => {
+    console.log('User is disconnected');
+  });
+});
+
+server.listen(port, () => {
+  console.log(`Server run at port ${port}`);
 });
