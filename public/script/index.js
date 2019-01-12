@@ -1,10 +1,10 @@
 const socket = io();
 socket.on('connect', function () {
   console.log('Connected to the server');
-  socket.emit('createMessage', {
-    from: 'stranger',
-    text: 'Join to chat room'
-  });
+  // socket.emit('createMessage', {
+  //   from: 'stranger',
+  //   text: 'Join to chat room'
+  // });
 });
 
 socket.on('newMessage', function(message){
