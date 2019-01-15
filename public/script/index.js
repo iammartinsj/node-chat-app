@@ -8,21 +8,20 @@ socket.on('connect', function () {
 });
 
 socket.on('newMessage', function(message){
-  console.log(`${message.from}: ${message.text}`);
-  console.log(`created: ${message.createdAt}`);
+  var createdAtFormatted = moment(message.createdAt).format('h:mm a');
   var li = document.createElement('li');
-  li.innerHTML = `${message.from}: ${message.text}`;
+  li.innerHTML = `${message.from} ${createdAtFormatted}: ${message.text}`;
   ulMessages.appendChild(li);
 });
 
 socket.on('newMessageLocation', function(message){
-  console.log('its triggered');
+  var createdAtFormatted = moment(message.createdAt).format('h:mm a');
   var li = document.createElement('li');
   var a = document.createElement('a');
   a.setAttribute('target','_blank');
   a.setAttribute('href', message.url);
   a.innerHTML = "My current location";
-  li.innerText = `${message.from}: `
+  li.innerText = `${message.from} ${createdAtFormatted}: `
   li.appendChild(a);
   ulMessages.appendChild(li);
 });
