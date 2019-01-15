@@ -10,7 +10,7 @@ const port = process.env.PORT || 3000;
 const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
-const { generateMessage } = require('./utils/message');
+const { generateMessage, generateMessageLocation } = require('./utils/message');
 
 app.use(express.static(publicPath));
 
@@ -25,6 +25,11 @@ io.on('connection', (socket) => {
   socket.on('createMessage', (message, callback) => {
     io.emit('newMessage',generateMessage(message.from, message.text));
     callback("Acknowledge by the server");
+  });
+
+  socket.on('createLocationMessage', (coord) => {
+    console.log('trigger');
+    io.emit('newMessageLocation', generateMessageLocation('Admin', coord.latitude, coord.longitude));
   });
 
   socket.on('disconnect', () => {
