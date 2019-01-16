@@ -1,5 +1,5 @@
 var formMessage = document.getElementById('message-form');
-var ulMessages = document.getElementById('messages');
+var ulMessages = $('#messages');
 var btnSendlocation = document.getElementById('send-location');
 
 var socket = io();
@@ -9,21 +9,24 @@ socket.on('connect', function () {
 
 socket.on('newMessage', function(message){
   var createdAtFormatted = moment(message.createdAt).format('h:mm a');
-  var li = document.createElement('li');
-  li.innerHTML = `${message.from} ${createdAtFormatted}: ${message.text}`;
-  ulMessages.appendChild(li);
+  var template = $('#message-template').html();
+  var html = Mustache.render(template,{
+    from: message.from,
+    createdAt: createdAtFormatted,
+    text: message.text
+  });
+  ulMessages.append(html);
 });
 
 socket.on('newMessageLocation', function(message){
   var createdAtFormatted = moment(message.createdAt).format('h:mm a');
-  var li = document.createElement('li');
-  var a = document.createElement('a');
-  a.setAttribute('target','_blank');
-  a.setAttribute('href', message.url);
-  a.innerHTML = "My current location";
-  li.innerText = `${message.from} ${createdAtFormatted}: `
-  li.appendChild(a);
-  ulMessages.appendChild(li);
+  var template = $('#location-message-template').html();
+  var html = Mustache.render(template,{
+    from: message.from,
+    createdAt: createdAtFormatted,
+    url: message.url
+  });
+  ulMessages.append(html);
 });
 
 socket.on('disconnect', function () {
