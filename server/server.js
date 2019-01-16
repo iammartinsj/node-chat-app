@@ -16,8 +16,6 @@ app.use(express.static(publicPath));
 
 io.on('connection', (socket) => {
 
-  console.log('New user connected');
-
   socket.emit('newMessage', generateMessage('Admin','Welcome new user'));
 
   socket.broadcast.emit('newMessage',generateMessage('Admin','New user join'));
@@ -28,7 +26,6 @@ io.on('connection', (socket) => {
   });
 
   socket.on('createLocationMessage', (coord) => {
-    console.log('trigger');
     io.emit('newMessageLocation', generateMessageLocation('Admin', coord.latitude, coord.longitude));
   });
 
