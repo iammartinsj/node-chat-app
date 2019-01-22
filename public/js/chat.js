@@ -1,10 +1,18 @@
 var formMessage = document.getElementById('message-form');
 var ulMessages = $('#messages');
 var btnSendlocation = document.getElementById('send-location');
+var userList= $('#users');
 
 var socket = io();
 socket.on('connect', function () {
-  console.log('Connected to the server');
+  var params = $.deparam(window.location.search);
+  socket.emit('join', params, function(err){
+    if(err){
+      alert(err);
+      window.location.href = '/';
+    } else{
+    }
+  })
 });
 
 function ScrollToBottom(){
@@ -45,6 +53,14 @@ socket.on('newMessageLocation', function(message){
   });
   ulMessages.append(html);
   ScrollToBottom();
+});
+
+socket.on('updateUserList', function(users){
+  var ol = $('<ol></ol>')
+  users.forEach(function(user){
+    ol.append($('<li></li>').text(user))
+  });
+  userList.html(ol);
 });
 
 socket.on('disconnect', function () {

@@ -7,7 +7,7 @@
     "start": "node server/server.js",
     "start-watch": "nodemon server/server.js",
     "test": "mocha server/**/*.test.js",
-    "test-watch": "npm run test"
+    "test-watch": "nodemon run test"
   },
   "engines": {
     "node": "10.15.0"
