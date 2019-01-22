@@ -67,6 +67,7 @@ socket.on('disconnect', function () {
   console.log('Disconnected from the server');
 });
  
+//Send Message Using Socket
 formMessage.addEventListener('submit', function(e){
   e.preventDefault();
   var messageInput = e.target.elements[0];
@@ -88,6 +89,7 @@ btnSendlocation.addEventListener('click', function(){
   navigator.geolocation.getCurrentPosition(function(position){
     targetBtn.removeAttribute('disabled');
     targetBtn.innerText = "Send Location";
+    //Send Location Message Using Socket
     socket.emit('createLocationMessage',{
       latitude: position.coords.latitude,
       longitude: position.coords.longitude
